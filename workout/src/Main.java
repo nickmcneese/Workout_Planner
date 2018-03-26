@@ -16,6 +16,7 @@ public class Main {
         } else if (output.equals("2")) {
             System.out.println("Please enter a name for your workout plan: ");
             String planName = reader.next();
+            Plan newPlan = new Plan(planName);
 
         } else {
             System.out.println("Please enter either 1 or 2.");
