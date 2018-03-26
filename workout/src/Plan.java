@@ -5,9 +5,11 @@ import java.util.Scanner;
 public class Plan implements Serializable {
     private String name;
     private ArrayList<Workout> workouts;
+    private static final long serialVersionUID = -5429358616302639821L;
 
     public Plan(String planName) {
         this.name = planName;
+        this.workouts = new ArrayList<>();
     }
 
     public String getName() {
@@ -19,6 +21,12 @@ public class Plan implements Serializable {
     }
 
     public ArrayList<Workout> getWorkouts() {
+        if (this.workouts.isEmpty()) {
+            System.out.println("\nThere are no workouts in this plan. Please add a workout: ");
+            Scanner reader = new Scanner(System.in);
+            addWorkout(reader.next());
+            System.out.println("Current Workouts in your plan:");
+        }
         return this.workouts;
     }
 
@@ -67,5 +75,20 @@ public class Plan implements Serializable {
             plan0 = null;
         }
         return plan0;
+    }
+
+    public static void updatePlan(Plan plan, String planName) {
+        String objDir = "plans/";
+        String name = planName.replaceAll("\\s ","");
+        String newFileLoc = objDir + name;
+        File outFile = new File(newFileLoc);
+        try {
+            ObjectOutputStream out =
+                    new ObjectOutputStream(new FileOutputStream(outFile));
+            out.writeObject(plan);
+            out.close();
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
     }
 }

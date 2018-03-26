@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Workout {
+public class Workout implements Serializable {
 
     private ArrayList<String> progressions;
     private String currProgression;
@@ -8,6 +9,10 @@ public class Workout {
 
     public Workout(String workoutName) {
         this.workoutName = workoutName;
+    }
+
+    public String getWorkoutName() {
+        return workoutName;
     }
 
     public void setCurrentProgression(String currProgression){

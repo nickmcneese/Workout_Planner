@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static Plan plan;
+    private static Plan selectedPlan = null;
 
     public static void main(String[] args) {
         File planDir = new File("plans");
@@ -11,6 +11,15 @@ public class Main {
             planDir.mkdirs();
         }
         prompt();
+        if (selectedPlan != null) {
+            System.out.println("\n\n-----------------\nPlan: " + selectedPlan.getName()
+                + "\n");
+            System.out.println("Current Workouts in your plan:");
+            for (Workout w : selectedPlan.getWorkouts()) {
+                System.out.println("-" + w.getWorkoutName());
+            }
+            Plan.updatePlan(selectedPlan, selectedPlan.getName());
+        }
     }
 
     public static void prompt() {
@@ -18,7 +27,8 @@ public class Main {
         File folder = new File("plans/");
         System.out.println("1: Select a current workout plan.");
         System.out.println("2: Create a new workout plan.");
-        System.out.println("3: Exit.");
+        System.out.println("3: Remove a workout plan.");
+        System.out.println("4: Exit.");
         String output = reader.next();
         if (output.equals("1")) {
             System.out.println("What was the name of your plan? Here are all current plans:");
@@ -31,14 +41,21 @@ public class Main {
             System.out.println("-----------------");
             String recallName = reader.next();
             if (new File("plans/" + recallName).exists()) {
-                plan = Plan.reconstructPlan(recallName);
+                selectedPlan = Plan.reconstructPlan(recallName);
             } else {
                 System.out.println("A plan by that name does not exist.\n");
                 prompt();
             }
         } else if (output.equals("2")) {
             createNewPlan();
+            prompt();
         } else if (output.equals("3")) {
+            String planName = reader.next();
+            if (new File("plans/" + planName).exists()) {
+                new File("plans/" + planName).delete();
+                System.out.println(planName + " has been deleted.\n");
+            }
+        } else if (output.equals("4")) {
             return;
         } else {
             System.out.println("Please enter either 1, 2, or 3.");
