@@ -4,9 +4,9 @@ public class Workout {
 
     private ArrayList<String> progressions;
     private String currProgression;
-    private String planName;
-    public Workout(String planName) {
-        this.planName = planName;
+    private String workoutName;
+    public Workout(String workoutName) {
+        this.workoutName = workoutName;
     }
 
     public void setCurrentProgression(String currProgression){
