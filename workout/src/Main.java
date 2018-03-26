@@ -1,8 +1,13 @@
+import java.io.File;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+        File planDir = new File("plans");
+        if (!planDir.exists()) {
+            planDir.mkdirs();
+        }
         prompt();
     }
 
@@ -17,7 +22,7 @@ public class Main {
             System.out.println("Please enter a name for your workout plan: ");
             String planName = reader.next();
             Plan newPlan = new Plan(planName);
-
+            Plan.makePlanFile(newPlan, planName);
         } else {
             System.out.println("Please enter either 1 or 2.");
             prompt();

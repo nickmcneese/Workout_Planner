@@ -5,6 +5,7 @@ public class Workout {
     private ArrayList<String> progressions;
     private String currProgression;
     private String workoutName;
+
     public Workout(String workoutName) {
         this.workoutName = workoutName;
     }
