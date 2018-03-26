@@ -7,6 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
         File planDir = new File("plans");
+        Scanner reader = new Scanner(System.in);
         if (!planDir.exists()) {
             planDir.mkdirs();
         }
@@ -17,6 +18,20 @@ public class Main {
             System.out.println("Current Workouts in your plan:");
             for (Workout w : selectedPlan.getWorkouts()) {
                 System.out.println("-" + w.getWorkoutName());
+            }
+            System.out.println("\nType the name of a workout to select it or" +
+                    " type 'add' + workout name to add a workout to your plan");
+            System.out.println("\nTo remove the name of a workout, type" +
+                    " 'remove' + workout name.");
+            String command = reader.nextLine();
+            if (command.contains("add")) {
+                String newWorkout = command.substring(3);
+                newWorkout = newWorkout.replaceAll("\\s+", "");
+                selectedPlan.addWorkout(newWorkout);
+            } else if (command.contains("remove")) {
+                String removed = command.substring(6);
+                removed = removed.replaceAll("\\s+", "");
+                selectedPlan.removeWorkout(removed);
             }
             Plan.updatePlan(selectedPlan, selectedPlan.getName());
         }

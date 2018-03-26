@@ -20,19 +20,28 @@ public class Plan implements Serializable {
         this.workouts.add(new Workout(workoutName));
     }
 
+    public void removeWorkout(String workoutName) {
+        for (Workout w: this.workouts) {
+            if (w.getWorkoutName().equalsIgnoreCase(workoutName)) {
+                this.workouts.remove(w);
+                break;
+            }
+        }
+    }
+
     public ArrayList<Workout> getWorkouts() {
         if (this.workouts.isEmpty()) {
             System.out.println("\nThere are no workouts in this plan. Please add a workout: ");
             Scanner reader = new Scanner(System.in);
             addWorkout(reader.next());
-            System.out.println("Current Workouts in your plan:");
+            System.out.println("\nCurrent Workouts in your plan:");
         }
         return this.workouts;
     }
 
     public static void makePlanFile(Plan plan, String planName) {
         String objDir = "plans/";
-        String name = planName.replaceAll("\\s ","");
+        String name = planName.replaceAll("\\s+","");
         String newFileLoc = objDir + name;
         File outFile = new File(newFileLoc);
         Scanner reader = new Scanner(System.in);
@@ -63,7 +72,7 @@ public class Plan implements Serializable {
 
     public static Plan reconstructPlan(String planName) {
         Plan plan0;
-        String name = planName.replaceAll(" \\s","");
+        String name = planName.replaceAll(" \\s+","");
         File inFile = new File("plans/" + name + "/");
         try {
             ObjectInputStream inp =
