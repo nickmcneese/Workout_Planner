@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Main {
 
     private static Plan selectedPlan = null;
+    private static Workout selectedWorkout = null;
 
     public static void main(String[] args) {
         File planDir = new File("plans");
@@ -19,10 +20,6 @@ public class Main {
             for (Workout w : selectedPlan.getWorkouts()) {
                 System.out.println("-" + w.getWorkoutName());
             }
-            System.out.println("\nType the name of a workout to select it or" +
-                    " type 'add' + workout name to add a workout to your plan");
-            System.out.println("\nTo remove the name of a workout, type" +
-                    " 'remove' + workout name.");
             String command = reader.nextLine();
             if (command.contains("add")) {
                 String newWorkout = command.substring(3);
@@ -32,9 +29,21 @@ public class Main {
                 String removed = command.substring(6);
                 removed = removed.replaceAll("\\s+", "");
                 selectedPlan.removeWorkout(removed);
+            } else {
+                for (Workout w: selectedPlan.getWorkouts()) {
+                    if (w.getWorkoutName().equalsIgnoreCase(command)) {
+                       selectedWorkout = w;
+                       workoutPrompt(w);
+                    }
+                }
             }
             Plan.updatePlan(selectedPlan, selectedPlan.getName());
         }
+    }
+
+    public static void workoutPrompt(Workout workout){
+        System.out.println("\n\n-----------------\n " + workout.getWorkoutName() + "\n");
+
     }
 
     public static void prompt() {
